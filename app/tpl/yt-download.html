@@ -1,0 +1,26 @@
+<div class="yt-download-progress">
+  <div class="progress" ng-class="{'progress-success':video.download.complete}">
+    <div class="progress-fill" ng-style="progressWidth()"></div>
+  </div>
+  <div ng-if="!video.download.active">
+    <div class="progress-text">&nbsp;</div>
+  </div>
+  <div ng-if="video.download.active">
+    <div class="progress-text" ng-if="!video.download.complete">
+      {{video.download.progress|number:1}}% Downloading - {{video.download.bytesLoaded|filesize}} of {{video.download.bytesTotal|filesize}}
+    </div>
+    <div class="progress-text" ng-if="video.download.complete">
+      Download Complete
+    </div>
+  </div>
+</div>
+<div class="yt-download-button">
+  <div ng-if="!video.download.complete" class="button-wrap">
+    <button ng-hide="video.download.active" ng-click="download()">Download</button>
+    <button ng-show="video.download.active" ng-click="cancel()">Cancel</button>
+  </div>
+  <div ng-if="video.download.complete" class="button-wrap">
+    <button ng-click="done()">Done</button>
+    <button ng-click="reveal()">Reveal File</button>
+  </div>
+</div>

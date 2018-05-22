@@ -1,0 +1,60 @@
+<!-- <table class="table">
+  <thead>
+    <tr>
+      <th>Format</th>
+      <th>Video Dimensions</th>
+      <th>Video Codec</th>
+      <th>Audio Codec</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="format in video.info.formats|orderBy:'-width'|orderBy:bestSort" ng-class="{active:video.options.format==format.format_id}" ng-click="video.options.format=format.format_id">
+      <td>
+        {{format.ext|uppercase}}
+      </td>
+      <td>
+        <span ng-show="format.vcodec!='none'">{{format.width}}&times;{{format.height}}</span>
+        <span class="muted" ng-show="format.vcodec=='none'">Audio</span>
+      </td>
+      <td>
+        <span class="muted">
+          <span ng-show="format.vcodec!='none'"><i class="fas fa-fw fa-film"></i> {{format.vcodec}}</span>
+        </span>
+      </td>
+      <td>
+        <span class="muted">
+          <span ng-show="format.acodec!='none'"><i class="fas fa-fw fa-volume-up"></i> {{format.acodec}}</span>
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+
+
+<div class="list" ng-show="video.info!=null">
+  <div class="list-head">
+    <div class="list-header">Format</div>
+    <div class="list-header">Video Dimensions</div>
+    <div class="list-header">Video Codec</div>
+    <div class="list-header">Audio Codec</div>
+  </div>
+  <a class="list-item" ng-repeat="format in video.info.formats|orderBy:'-width'|orderBy:bestSort" ng-class="{active:video.options.format==format.format_id}" ng-click="video.options.format=format.format_id">
+    <div class="list-item-cell">
+      {{format.ext|uppercase}}
+    </div>
+    <div class="list-item-cell">
+      <span ng-show="format.vcodec!='none'">{{format.width}}&times;{{format.height}}</span>
+      <span class="muted" ng-show="format.vcodec=='none'">Audio</span>
+    </div>
+    <div class="list-item-cell">
+      <span class="muted">
+        <span ng-show="format.vcodec!='none'"><i class="fas fa-fw fa-film"></i> {{format.vcodec}}</span>
+      </span>
+    </div>
+    <div class="list-item-cell">
+      <span class="muted">
+        <span ng-show="format.acodec!='none'"><i class="fas fa-fw fa-volume-up"></i> {{format.acodec}}</span>
+      </span>
+    </div>
+  </a>
+</div>
