@@ -30,7 +30,10 @@ if (process.platform === 'darwin') {
   module.exports.unshift({
     label: electron.app.getName(),
     submenu: [
-      {role: 'about'},
+      {
+        label: 'About',
+        click () { electron.shell.openExternal('https://github.com/dudewheresmycode/youtube-dl-desktop') }
+      },
       {type: 'separator'},
       {role: 'services', submenu: []},
       {type: 'separator'},
@@ -45,7 +48,10 @@ if (process.platform === 'darwin') {
   module.exports.unshift({
     label: "File",
     submenu: [
-      {role: 'about'},
+      {
+        label: 'About',
+        click () { electron.shell.openExternal('https://github.com/dudewheresmycode/youtube-dl-desktop') }
+      },
       {type: 'separator'},
       {role: 'quit'}
     ]
