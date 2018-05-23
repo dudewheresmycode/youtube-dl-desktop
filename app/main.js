@@ -69,46 +69,42 @@ function createWindow () {
   })
 
 
-  const menu = new Menu()
-  if (process.platform === 'darwin') {
-    menu.append(new MenuItem({
-      label: electron.app.getName(),
-      submenu: [
-        {role: 'about'},
-        {type: 'separator'},
-        {role: 'services', submenu: []},
-        {type: 'separator'},
-        {role: 'hide'},
-        {role: 'hideothers'},
-        {role: 'unhide'},
-        {type: 'separator'},
-        {role: 'quit'}
-      ]
-    }));
-  }
-  if (process.platform === 'win32') {
-    menu.append(new MenuItem({
-      label: 'File',
-      submenu: [
-        {role: 'quit'}
-      ]
-    }));
-  }
-  menu.append(new MenuItem({
-    label: 'Edit',
-    submenu: [
-      {label:"Cut", role:'cut'},
-      {label:"Copy", role: 'copy'},
-      {label:"Paste", role: 'paste'}
-    ]
-  }));
-  try {
-    setTimeout(function(){
-      Menu.setApplicationMenu(menu);
-    },4000);
-  }catch(e){
-    console.log(e);
-  }
+  // const menu = new Menu()
+  // if (process.platform === 'darwin') {
+  //   menu.append(new MenuItem({
+  //     label: electron.app.getName(),
+  //     submenu: [
+  //       {role: 'about'},
+  //       {type: 'separator'},
+  //       {role: 'services', submenu: []},
+  //       {type: 'separator'},
+  //       {role: 'hide'},
+  //       {role: 'hideothers'},
+  //       {role: 'unhide'},
+  //       {type: 'separator'},
+  //       {role: 'quit'}
+  //     ]
+  //   }));
+  // }
+  // if (process.platform === 'win32') {
+  //   menu.append(new MenuItem({
+  //     label: 'File',
+  //     submenu: [
+  //       {role: 'quit'}
+  //     ]
+  //   }));
+  // }
+  // menu.append(new MenuItem({
+  //   label: 'Edit',
+  //   submenu: [
+  //     {label:"Cut", role:'cut'},
+  //     {label:"Copy", role: 'copy'},
+  //     {label:"Paste", role: 'paste'}
+  //   ]
+  // }));
+  let menu = Menu.buildFromTemplate(require('./lib/menu-template.js'))
+  Menu.setApplicationMenu(menu);
+
 
 
 }
@@ -153,7 +149,6 @@ function createWindow () {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-// const menu = Menu.buildFromTemplate(require('./lib/menu-template.js'))
 
 app.on('ready', function(){
   createWindow();
