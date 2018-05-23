@@ -14,24 +14,16 @@ module.exports = [
       // {role: 'delete'},
       // {role: 'selectall'}
     ]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'Report Bugs',
+        click () { electron.shell.openExternal('https://github.com/dudewheresmycode/youtube-dl-desktop/issues') }
+      }
+    ]
   }
-  // ,
-  // {
-  //   role: 'window',
-  //   submenu: [
-  //     {role: 'minimize'},
-  //     {role: 'close'}
-  //   ]
-  // },
-  // {
-  //   role: 'help',
-  //   submenu: [
-  //     {
-  //       label: 'Report Bugs',
-  //       click () { electron.shell.openExternal('https://github.com/dudewheresmycode/youtube-dl-desktop/issues') }
-  //     }
-  //   ]
-  // }
 ]
 //
 if (process.platform === 'darwin') {
@@ -45,6 +37,15 @@ if (process.platform === 'darwin') {
       {role: 'hide'},
       {role: 'hideothers'},
       {role: 'unhide'},
+      {type: 'separator'},
+      {role: 'quit'}
+    ]
+  })
+}else{
+  module.exports.unshift({
+    label: "File",
+    submenu: [
+      {role: 'about'},
       {type: 'separator'},
       {role: 'quit'}
     ]
