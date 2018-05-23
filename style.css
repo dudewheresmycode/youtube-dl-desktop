@@ -1,0 +1,36 @@
+
+body {
+  background-color: #211F1F;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 14px;
+  -webkit-font-smoothing: antialised;
+  color: #fff;
+}
+
+.container {
+  max-width: 1024px;
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+}
+.jumbotron {
+  padding: 30px;
+}
+.download {
+  padding: 30px;
+  /* background: #fff; */
+  /* height: 200px; */
+}
+#links {
+
+}
+#links a {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  color: #fff;
+  background-color: #D23440;
+  text-decoration: none;
+  margin-bottom: 1em;
+}
