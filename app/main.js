@@ -25,14 +25,14 @@ console.log("YOUTUBE-DL PATH", process.env.YTDL_BIN);
 
 
 function createWindow () {
-  // require('electron-context-menu')({
-  //   showInspectElement: false
-  // 	// prepend: (params, browserWindow) => [{
-  // 	// 	label: 'Rainbow'
-  // 	// 	// Only show it when right-clicking images
-  // 	// 	// visible: params.mediaType === 'image'
-  // 	// }]
-  // });
+  require('electron-context-menu')({
+    showInspectElement: false
+  	// prepend: (params, browserWindow) => [{
+  	// 	label: 'Rainbow'
+  	// 	// Only show it when right-clicking images
+  	// 	// visible: params.mediaType === 'image'
+  	// }]
+  });
 
 
   // electron.dialog.showMessageBox({
