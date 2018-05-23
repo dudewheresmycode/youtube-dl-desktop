@@ -10,15 +10,20 @@ const zipFolder = require('zip-folder');
 const pkg = require('../package.json');
 
 
+
 // console.log("PKG: ", pkg.version);
 // return;
 var base = process.cwd();
 var binDir = base+"/app/bin/";
-var toremove = fs.readdirSync(binDir)
-if(toremove && toremove.length > 0){
-  toremove.forEach(function(p){
-    fs.unlinkSync(path.join(binDir, p));
-  });
+if (!fs.existsSync(binDir)){
+  fs.mkdirSync(binDir);
+}else{
+  var toremove = fs.readdirSync(binDir)
+  if(toremove && toremove.length > 0){
+    toremove.forEach(function(p){
+      fs.unlinkSync(path.join(binDir, p));
+    });
+  }  
 }
 var ytopts = {
   platform: "win",
