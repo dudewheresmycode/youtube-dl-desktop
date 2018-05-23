@@ -30,6 +30,7 @@ body {
 /* loading section */
 .yt-loading {
   text-align: center;
+  margin-top: 100px;
   padding: 20px;
   flex: 1 1 auto;
   display: flex;
@@ -41,22 +42,31 @@ body {
   color: #A8DADC;
 }
 .yt-loading svg {
-  width: 100px;
-  height: 100px;
+  width: 75px;
+  height: 75px;
   margin: auto;
   display: inline-block;
 }
-.yt-loading svg path {
+.yt-loading svg path,
+.yt-loading svg rect {
   fill: #A8DADC;
 }
-
+.format-label {
+  background-color: rgba(0,0,0,0.35);
+  color: #fff;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 2px 4px;
+  display: block;
+  text-align: center;
+}
 
 /* top form section */
 .yt-form {
   display: flex;
   flex-direction: row;
   flex: 0 0 auto;
-  padding: 60px 30px 30px 30px;
+  padding: 60px 30px 0px 30px;
   /* border-bottom: 2px solid #eee; */
 }
 .yt-form .yt-form-input {
@@ -75,6 +85,7 @@ body {
   position: relative;
   align-items: center;
   display: flex;
+  /* padding: 0 30px 0 30px; */
 }
 .yt-info-bg {
   background-repeat: no-repeat;
@@ -97,7 +108,7 @@ body {
   justify-content: center;
   align-items: center;
   align-content: center;
-  padding: 20px;
+  padding: 15px 30px;
   flex: 1 1 auto;
 }
 .yt-info-thumbnail {
@@ -153,7 +164,14 @@ body {
 .list {
   display: table;
   width: 100%;
+  /* padding: 0 15px; */
   /* flex-direction: column; */
+}
+.yt-form.disabled,
+.list.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 .list-head {
   display: table-row;
@@ -161,7 +179,7 @@ body {
 .list-header {
   vertical-align: middle;
   display: table-cell;
-  padding: 10px 15px 8px 15px;
+  padding: 10px 30px 8px 30px;
   font-size: 14px;
   /* border-bottom: 1px solid #2D2B2B; */
 }
@@ -182,7 +200,7 @@ body {
 .list .list-item .list-item-cell {
   vertical-align: middle;
   display: table-cell;
-  padding: 10px 15px 8px 15px;
+  padding: 10px 30px 8px 30px;
   font-size: 14px;
   /* border-top: 1px solid #e0e0e0; */
   /* border-bottom: 2px solid #f0f0f0; */
@@ -266,18 +284,26 @@ body {
 
 .progress {
   position: relative;
-  height: 15px;
-  background-color: #2D2B2B;
+  height: 11px;
+  border: 1px solid #2D2B2B;
+  /* background-color: #2D2B2B; */
   border-radius: 15px;
   overflow: hidden;
+  padding: 2px;
 }
 .progress .progress-fill {
-  height: 15px;
+  border-radius: 15px 0 0 15px;
+  height: 11px;
   width: 24%;
-  background-color: #84DCCF;
+  background-color: #fff;
 }
+.progress.active {
+  border: 1px solid #fff;
+}
+
 .progress.progress-success .progress-fill {
-  background-color: #BBDB9B;
+  border-radius: 15px;
+  /* background-color: #BBDB9B; */
 }
 .progress-text {
   padding-top: 7px;

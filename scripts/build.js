@@ -1,9 +1,17 @@
 // electron-packager ./app YoutubeDLGUI --platform=win32 --icon=./resources/icon.iconset --out=./build/win/ --overwrite
+// electron-packager ./app YoutubeDLGUI --ignore=.gitignore --platform=darwin --icon=./resources/icon.icns --out=./build/mac/ --overwrite
 const fs = require('fs')
 const path = require('path')
 const packager = require('electron-packager')
 const ytdlInstall = require('./youtube-dl-install.js');
-// electron-packager ./app YoutubeDLGUI --ignore=.gitignore --platform=darwin --icon=./resources/icon.icns --out=./build/mac/ --overwrite
+// const zip = new require('node-zip')();
+const zipFolder = require('zip-folder');
+
+const pkg = require('../package.json');
+
+
+// console.log("PKG: ", pkg.version);
+// return;
 var base = process.cwd();
 var binDir = base+"/app/bin/";
 var toremove = fs.readdirSync(binDir)
@@ -18,7 +26,8 @@ var ytopts = {
 };
 var opts = {
   dir: base+'/app',
-  name: "YoutubeDL",
+  name: "youtube-dl-desktop",
+  appVersion: pkg.version,
   platform: "win32",
   icon: base+"/resources/icon.iconset",
   out: base+'/build/win',
@@ -33,7 +42,8 @@ if(process.argv[2]=='mac'){
   };
   opts = {
     dir: base+'/app',
-    name: "YoutubeDL",
+    name: "youtube-dl-desktop",
+    appVersion: pkg.version,
     platform: "darwin",
     icon: base+"/resources/icon.icns",
     out: base+'/build/mac',
@@ -49,6 +59,8 @@ ytinstall.download({}, function(err, response){
 
   packager(opts, function(err, paths){
     console.log('paths', paths);
-  })
-
+    zipFolder(paths[0], paths[0]+".zip", function(err) {
+      console.log('zipped', err);
+    });
+  });
 });

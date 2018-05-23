@@ -48,7 +48,7 @@ angular.module('ytdl', [
       convert:false
     },
     info: null,
-    url: "https://www.youtube.com/watch?v=oUVWRrlCNAs"
+    url: ""
   }
   $rootScope.video = angular.copy($rootScope.default_video);
 
@@ -97,8 +97,17 @@ angular.module('ytdl', [
         $rootScope.video.download.progress = 100;
         $rootScope.$apply();
       });
+      ipcRenderer.on('yt.download.canceled', function(event){
+        $rootScope.video.download.complete = true;
+        $rootScope.video.output = null;
+        $rootScope.video.download = {active:false, progress:0};
+        $rootScope.$apply();
+      });
       scope.reveal = function(){
         shell.showItemInFolder($rootScope.video.output);
+      }
+      scope.cancel = function(){
+        ipcRenderer.send('yt.download.cancel', $rootScope.video);
       }
       scope.done = function(){
         console.log('done');
@@ -110,12 +119,14 @@ angular.module('ytdl', [
         // console.log("download video: %s format: %s", $rootScope.video.url, $rootScope.video.options.format);
         var fmt = $rootScope.selectedFormat();
         var fn = $rootScope.video.info.title+"."+fmt.ext;
+        $rootScope.video.download.active=true;
         dialog.showSaveDialog({defaultPath:fn, buttonLabel:"Download"},function(fn){
           console.log(fn);
           if(fn){
-            $rootScope.video.download.active=true;
             $rootScope.video.output = fn;
             ipcRenderer.send('yt.download.start', $rootScope.video, fmt);
+          }else{
+            $rootScope.video.download.active=false;
           }
         });
 

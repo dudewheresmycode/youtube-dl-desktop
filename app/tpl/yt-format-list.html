@@ -31,7 +31,7 @@
 </table> -->
 
 
-<div class="list" ng-show="video.info!=null">
+<div class="list" ng-show="video.info!=null" ng-class="{disabled:video.download.active}">
   <div class="list-head">
     <div class="list-header">Format</div>
     <div class="list-header">Video Dimensions</div>
@@ -40,7 +40,10 @@
   </div>
   <a class="list-item" ng-repeat="format in video.info.formats|orderBy:'-width'|orderBy:bestSort" ng-class="{active:video.options.format==format.format_id}" ng-click="video.options.format=format.format_id">
     <div class="list-item-cell">
-      {{format.ext|uppercase}}
+      <span class="format-label">
+        {{format.ext|uppercase}}
+      </span>
+
     </div>
     <div class="list-item-cell">
       <span ng-show="format.vcodec!='none'">{{format.width}}&times;{{format.height}}</span>

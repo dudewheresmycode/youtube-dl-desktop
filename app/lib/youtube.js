@@ -6,30 +6,16 @@ const ipcMain = electron.ipcMain
 
 const fs = require("fs")
 const path = require("path")
-const youtubedl = require("youtube-dl")
+
 const spawn = require("child_process").spawn
 const request = require("request")
 
 let tmpPath = app.getPath('temp');
 
 
-// var video = youtubedl('http://www.youtube.com/watch?v=90AiXO1pAiA',
-//   // Optional arguments passed to youtube-dl.
-//   ['--format=18'],
-//   // Additional options can be given for calling `child_process.execFile()`.
-//   { cwd: __dirname });
-//
-// // Will be called when the download starts.
-// video.on('info', function(info) {
-//   console.log('Download started');
-//   console.log('filename: ' + info.filename);
-//   console.log('size: ' + info.size);
-// });
-//
-// video.pipe(fs.createWriteStream('myvideo.mp4'));
-
 ipcMain.on('yt.info.get', function(event,url){
   console.log('get',url);
+  console.log('bin', process.env.YTDL_BIN);
   //, "--write-info-json=pipe:1"
   //"--xattr-set-filesize",
   var yt = spawn(process.env.YTDL_BIN, ["--youtube-skip-dash-manifest", "--no-warnings", "-f", "best", "-j", url]);
@@ -47,11 +33,11 @@ ipcMain.on('yt.info.get', function(event,url){
   })
   yt.on('close',function(code){
     event.sender.send('yt.log', "closed with code "+code);
-    electron.dialog.showMessageBox({
-      type:"info",
-      buttons: ["OK"],
-      message: "stderr: " + json
-    });
+    // electron.dialog.showMessageBox({
+    //   type:"info",
+    //   buttons: ["OK"],
+    //   message: "stderr: " + json
+    // });
     console.log('youtube-dl closed: %s', code);
     if(code==0){
       try {
@@ -68,11 +54,20 @@ ipcMain.on('yt.info.get', function(event,url){
 
     }
   })
-  // youtubedl.getInfo(url, [], function(err, info) {
-  //   console.log(err,info);
-  //   event.sender.send('yt.info.result', info);
-  // });
 });
+
+ipcMain.on('yt.download.cancel', function(event, options){
+  if(download_req!=null){
+    download_req.abort();
+    download_req = null;
+    console.log('removed: ', options.output);
+    if(fs.existsSync(options.output)){
+      fs.unlinkSync(options.output);
+    }
+    event.sender.send('yt.download.canceled');
+  }
+});
+var download_req = null;
 
 ipcMain.on('yt.download.start', function(event, options, format){
 
@@ -85,14 +80,11 @@ ipcMain.on('yt.download.start', function(event, options, format){
   console.log('download dir: ', parts.dir);
   console.log('download base: ', parts.base);
 
-  //load-info-json
-  //var ytdl = youtubedl(options.url, ['--format='+options.options.format, '--load-info-json='+json_tmp], {cwd:parts.dir});
-  //, '--load-info-json=pipe:0'
-
   var bytesTotal;
   var bytesWritten = 0;
-  request.get(format.url, function(err, res){
+  download_req = request.get(format.url, function(err, res){
     console.log('finished');
+    download_req = null;
     event.sender.send('yt.download.complete');
   })
   .on('data',function(d){
@@ -103,8 +95,9 @@ ipcMain.on('yt.download.start', function(event, options, format){
   })
   .on('response',function(res){
     bytesTotal = parseInt(res.headers['content-length']);
-  })
-  .pipe(fs.createWriteStream(options.output));
+  });
+
+  download_req.pipe(fs.createWriteStream(options.output));
 
   // var ytdl = spawn(process.env.YTDL_BIN, [options.url, '-o', 'pipe:1', '--format='+options.options.format]);
   // ytdl.stderr.on('data',function(d){

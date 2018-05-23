@@ -8,9 +8,9 @@
   <body ng-app="ytdl">
     <div class="yt-app">
 
-      <div class="yt-form" link-form>
+      <div class="yt-form" link-form ng-class="{disabled:video.download.active}">
         <div class="yt-form-input">
-          <input type="text" class="input-control" ng-model="video.url" />
+          <input type="text" class="input-control" placeholder="https://www.youtube.com/watch?v=1g3_CFmnU7k" ng-model="video.url" />
         </div>
         <div class="yt-form-button">
           <button ng-click="getInfo()">Load</button>

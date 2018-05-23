@@ -1,19 +1,21 @@
 {
   "name": "youtube-dl-app",
-  "version": "1.0.1",
+  "version": "1.1.1",
   "description": "A desktop application for downloading youtube videos.",
   "main": "main.js",
   "scripts": {
     "start": "electron ./app",
     "build_mac": "node scripts/build.js mac",
-    "build_mac": "node scripts/build.js win"
+    "build_win": "node scripts/build.js win"
   },
   "license": "CC0-1.0",
-  "dependencies": {},
+  "dependencies": {
+    "zip-folder": "^1.0.0"
+  },
   "devDependencies": {
+    "electron": "^1.8.7",
+    "electron-packager": "^12.1.0",
     "request": "^2.85.0",
-    "which": "^1.3.0",
-    "electron": "^1.8.4",
-    "electron-packager": "^12.1.0"
+    "which": "^1.3.0"
   }
 }

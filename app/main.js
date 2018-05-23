@@ -3,6 +3,9 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+const Menu = electron.Menu;
+const MenuItem = electron.MenuItem;
+const dialog = electron.dialog;
 
 
 const path = require('path')
@@ -12,7 +15,6 @@ const _ = require('lodash')
 // const ytdlInstall = require('./lib/youtube-dl-install/index.js');
 require('./lib/youtube.js');
 
-
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -21,7 +23,16 @@ process.env.YTDL_BIN = path.join(app.getAppPath(), "bin/youtube-dl" + (process.p
 
 console.log("YOUTUBE-DL PATH", process.env.YTDL_BIN);
 
+
 function createWindow () {
+  // require('electron-context-menu')({
+  //   showInspectElement: false
+  // 	// prepend: (params, browserWindow) => [{
+  // 	// 	label: 'Rainbow'
+  // 	// 	// Only show it when right-clicking images
+  // 	// 	// visible: params.mediaType === 'image'
+  // 	// }]
+  // });
 
 
   // electron.dialog.showMessageBox({
@@ -32,11 +43,11 @@ function createWindow () {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 700, height: 700,
-    titleBarStyle: "hiddenInset",
-    webPreferences: {
-      experimentalFeatures: true
-    }
+    width: 700, height: 700
+    // titleBarStyle: "hiddenInset",
+    // webPreferences: {
+      // experimentalFeatures: true
+    // }
   })
 
   // and load the index.html of the app.
@@ -47,7 +58,7 @@ function createWindow () {
   }))
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -56,8 +67,51 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+
+
+  const menu = new Menu()
+  if (process.platform === 'darwin') {
+    menu.append(new MenuItem({
+      label: electron.app.getName(),
+      submenu: [
+        {role: 'about'},
+        {type: 'separator'},
+        {role: 'services', submenu: []},
+        {type: 'separator'},
+        {role: 'hide'},
+        {role: 'hideothers'},
+        {role: 'unhide'},
+        {type: 'separator'},
+        {role: 'quit'}
+      ]
+    }));
+  }
+  if (process.platform === 'win32') {
+    menu.append(new MenuItem({
+      label: 'File',
+      submenu: [
+        {role: 'quit'}
+      ]
+    }));
+  }
+  menu.append(new MenuItem({
+    label: 'Edit',
+    submenu: [
+      {label:"Cut", role:'cut'},
+      {label:"Copy", role: 'copy'},
+      {label:"Paste", role: 'paste'}
+    ]
+  }));
+  try {
+    setTimeout(function(){
+      Menu.setApplicationMenu(menu);
+    },4000);
+  }catch(e){
+    console.log(e);
+  }
+
+
 }
-const {dialog} = require('electron')
 //
 // function dependencyCheck(){
 //   var ytinstall = new ytdlInstall({
@@ -99,7 +153,11 @@ const {dialog} = require('electron')
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+// const menu = Menu.buildFromTemplate(require('./lib/menu-template.js'))
+
+app.on('ready', function(){
+  createWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
